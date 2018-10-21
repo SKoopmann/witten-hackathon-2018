@@ -8,12 +8,11 @@ Sys.setlocale("LC_ALL", "en_US.UTF-8")
 library("rvest")
 library("tidyverse")
 
-n <- 0
-
 scraper <- function(seitenzahl,seite) {
-  #Hier muss noch append eingefügt werden
+  
   url <- paste0("https://de.trustpilot.com/review/www.",seite,"?languages=all&page=",seitenzahl)
-  website<-url %>%
+  
+  website <- url %>%
     read_html()
   
   progress <- seitenzahl
@@ -76,11 +75,11 @@ scraper <- function(seitenzahl,seite) {
   
   return(data)
 }
-
+#Ende Funktion Scraper
 
   #########################################################################
 
-#Initialisierung
+#Initialisierung Input-Daten
 page <- "apple.com" #Hier ändern
 url <- paste0("https://de.trustpilot.com/review/www.",page,"?languages=all")
 website<-url %>%
@@ -95,8 +94,10 @@ max_page <- max_page %>%
     as.numeric() %>%
     max()
 
+#Dataframe der Formel aus Seitenzahl von bis, Scraper Funktion und Internetseite
 kroenung <- map_df(1:max_page, scraper, seite = page)
 
+#########################################################################
 
 #Durchschnittswerte
 averages_overall <- kroenung[,1:3] %>%
@@ -108,7 +109,7 @@ averages_overall[2:3] <- averages_overall[2:3] %>%
 
 averages_daily <- kroenung %>%
   group_by(Datum) %>%
-  summarize(Sterne = mean(Sterne),Zeichenzahl = mean(Zeichenzahl),Referenzen = mean(Referenzen))
+  summarize(Sterne = mean(Sterne), Zeichenzahl = mean(Zeichenzahl), Referenzen = mean(Referenzen))
 
 #Durchschnittliche Bewertungen je Sterne-Bewertung
 averages_per_star_rating <- kroenung %>%
@@ -149,3 +150,6 @@ ggplot(averages_per_star_rating, aes(Sterne, Zeichenzahl)) +
 ggplot(averages_per_star_rating, aes(Sterne, Referenzen)) + 
   geom_bar(stat="identity") + 
   ggtitle("Durchschnittliche Referenzen je Sterne-Bewertung")
+
+#########################################################################
+
