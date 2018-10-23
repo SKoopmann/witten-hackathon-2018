@@ -5,11 +5,16 @@ library(shiny)
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("Old Faithful Geyser Data"),
+  titlePanel("Testpilot Scrape Analysis"),
   
   mainPanel(
-    textInput("page", "Seite eingeben:"),
-    plotOutput("stars")
+    textInput("page", "Seite eingeben:", value = "adblockplus.org"),
+    actionButton("los", "Los!"),
+    plotOutput("stars"),
+    plotOutput("charactercount"),
+    plotOutput("references"),
+    plotOutput("average_characters"),
+    plotOutput("average_references")
     )
   )
 )

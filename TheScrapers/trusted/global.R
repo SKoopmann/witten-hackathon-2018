@@ -13,6 +13,7 @@ scraper <- function(seitenzahl,seite) {
     read_html()
   
   progress <- seitenzahl
+  cat(progress)
   
   #########################################################################
   
